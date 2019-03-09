@@ -6,7 +6,7 @@ public class Enemy_1 : Enemy
 {
     public override void Move()
     {
-        if (gameObject.transform.position.x >= 24f || gameObject.transform.position.x <= -24f)
+        if (gameObject.transform.position.x > 24f || gameObject.transform.position.x < -24f)
         {
             boolEnemy1 = !boolEnemy1;
         }
