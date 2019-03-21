@@ -7,6 +7,8 @@ public class Hero : MonoBehaviour
     [SerializeField]
     private float _speed = 30.0f;
     public int lives = 4;
+    public float gameRestartDelay = 10f;
+
     public bool shieldsActiveBlue = true;
     public bool shieldsActiveYellow = false;
     public bool shieldsActiveRed = false;
@@ -31,6 +33,8 @@ public class Hero : MonoBehaviour
         transform.Translate(Vector3.right * _speed * horizontalAxis * Time.deltaTime);    //Allowing the player to move horizontal across the screen
         transform.Translate(Vector3.up * _speed * verticalAxis * Time.deltaTime);         //Allowing the player to move vertical across the screen
     }
+
+    
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -67,6 +71,8 @@ public class Hero : MonoBehaviour
         if(lives < 1)
         {
             Destroy(this.gameObject);
+            lives = 4;
+            Main.S.DelayedRestart(gameRestartDelay);
         }
     }
 }

@@ -400,6 +400,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 30
   lives: 4
+  gameRestartDelay: 2
   shieldsActiveBlue: 1
   shieldsActiveYellow: 0
   shieldsActiveRed: 0
