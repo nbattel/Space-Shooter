@@ -4,9 +4,14 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Enemy_0
-  - Enemy_1
-  - Enemy_2
+  - Hero
+  - Projectile_Hero
+  - Projectile_Enemy
+  - Speed_Powerup
+  - Shield_Powerup
+  - TripleShot_Powerup
+  - PowerupBox
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -16,11 +21,11 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Hero
+  - Enemy
+  - Projectile_Hero
+  - Projectile_Enemy
+  - Powerup
   - 
   - 
   - 
