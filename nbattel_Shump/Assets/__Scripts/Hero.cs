@@ -6,9 +6,11 @@ public class Hero : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 30.0f;
-    private float _projectileSpeed = 40f;
+    private float _projectileSpeed = 60f;
     public int lives = 4;
     public float gameRestartDelay = 10f;
+    public float fireRate = 0.10f;
+    public float canFire = 0.0f;
 
     public bool shieldsActiveBlue = true;
     public bool shieldsActiveYellow = false;
@@ -40,14 +42,18 @@ public class Hero : MonoBehaviour
 
     private void Shoot()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButton(0))
         {
-            //Spaw Laser
-            GameObject projGO = Instantiate<GameObject>(laserPrefab);
-            projGO.transform.position = transform.position;
-            //Instantiate(laserPrefab, transform.position + new Vector3(0, 5.0f, 0), Quaternion.identity);
-            Rigidbody2D rigidB = projGO.GetComponent<Rigidbody2D>();
-            rigidB.velocity = Vector3.up * _projectileSpeed;
+            if(Time.time > canFire)
+            {
+                GameObject projGO = Instantiate<GameObject>(laserPrefab);
+                projGO.transform.position = transform.position + new Vector3(0, 5f, 0);
+                //Instantiate(laserPrefab, transform.position + new Vector3(0, 5.0f, 0), Quaternion.identity);
+                Rigidbody2D rigidB = projGO.GetComponent<Rigidbody2D>();
+                rigidB.velocity = Vector3.up * _projectileSpeed;
+                canFire = Time.time + fireRate;
+            }
+            
         }
     }
 
