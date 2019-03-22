@@ -36,7 +36,16 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Projectile_Hero")
+        {
+            Destroy(other.gameObject);
+            Destroy(this.gameObject);
+        }
+    }
+
+
     public Vector3 pos
     {
         get

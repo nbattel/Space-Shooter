@@ -6,12 +6,15 @@ public class Hero : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 30.0f;
+    private float _projectileSpeed = 40f;
     public int lives = 4;
     public float gameRestartDelay = 10f;
 
     public bool shieldsActiveBlue = true;
     public bool shieldsActiveYellow = false;
     public bool shieldsActiveRed = false;
+    public GameObject laserPrefab;
+
     [SerializeField]
     private GameObject _shieldBlue;
     [SerializeField]
@@ -23,6 +26,7 @@ public class Hero : MonoBehaviour
     private void Update()
     {
         Movement();
+        Shoot();
     }
 
     private void Movement()
@@ -34,7 +38,18 @@ public class Hero : MonoBehaviour
         transform.Translate(Vector3.up * _speed * verticalAxis * Time.deltaTime);         //Allowing the player to move vertical across the screen
     }
 
-    
+    private void Shoot()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            //Spaw Laser
+            GameObject projGO = Instantiate<GameObject>(laserPrefab);
+            projGO.transform.position = transform.position;
+            //Instantiate(laserPrefab, transform.position + new Vector3(0, 5.0f, 0), Quaternion.identity);
+            Rigidbody2D rigidB = projGO.GetComponent<Rigidbody2D>();
+            rigidB.velocity = Vector3.up * _projectileSpeed;
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
