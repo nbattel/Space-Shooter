@@ -5,6 +5,7 @@ using UnityEngine;
 public class Enemy_1 : Enemy
 {
     private float health = 3;
+
     public override void Move()
     {
         if (gameObject.transform.position.x > 24f || gameObject.transform.position.x < -24f)
@@ -45,6 +46,7 @@ public class Enemy_1 : Enemy
                 if (health <= 0)
                 {
                     //Destroy the enemy
+                    Main.S._score += 150;
                     Destroy(this.gameObject);
                 }
                 Destroy(otherGO);

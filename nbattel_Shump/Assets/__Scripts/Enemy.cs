@@ -9,7 +9,6 @@ public class Enemy : MonoBehaviour
     public bool boolEnemy2 = true;
     public float _fireRate = 0.3f;
     private float health = 1;
-    private int _score = 100;
 
     protected BoundsCheck _bndCheck;   //Private variable allows this Enemy script to store a reference to the BoundsCheck script component attached to the same GameOObject
 
@@ -56,6 +55,7 @@ public class Enemy : MonoBehaviour
                 if(health <= 0)
                 {
                     //Destroy the enemy
+                    Main.S._score += 100;
                     Destroy(this.gameObject);
                 }
                 Destroy(otherGO);

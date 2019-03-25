@@ -46,6 +46,7 @@ public class Enemy_2 : Enemy
                 if (health <= 0)
                 {
                     //Destroy the enemy
+                    Main.S._score += 300;
                     Destroy(this.gameObject);
                 }
                 Destroy(otherGO);

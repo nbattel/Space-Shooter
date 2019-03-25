@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Main : MonoBehaviour
 {
@@ -9,6 +10,11 @@ public class Main : MonoBehaviour
     [Header("Set in Inspector")]
     [SerializeField]
     private GameObject[] _enemyPrefabs;       //Array of enemy prefabs
+
+    public int _score = 0;
+    static private int _highScore = 0;
+    public Text score;
+    public Text highscore;
 
     [SerializeField]
     private GameObject _heroPrefab;
@@ -32,6 +38,14 @@ public class Main : MonoBehaviour
         {
             WEAP_DICT[def.type] = def;
         }
+
+        score.text = "Score: " + _score;
+        highscore.text = "Highscore: " + _highScore;
+    }
+
+    void Update()
+    {
+        score.text = "Score: " + _score;
     }
 
     public void SpawnEnemy()
@@ -79,6 +93,12 @@ public class Main : MonoBehaviour
 
     public void Restart()
     {
+        if (_score >= _highScore)
+        {
+            _highScore = _score;
+            highscore.text = "Highscore: " + _highScore;
+        }
+
         SceneManager.LoadScene("Game");
     }
 
