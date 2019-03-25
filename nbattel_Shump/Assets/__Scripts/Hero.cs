@@ -75,8 +75,8 @@ public class Hero : MonoBehaviour
     //        GameObject projGO = Instantiate<GameObject>(laserPrefab);
     //        projGO.transform.position = transform.position + new Vector3(0, 5f, 0);
     //        Rigidbody2D rigidB = projGO.GetComponent<Rigidbody2D>();
-    //        rigidB.velocity = Vector3.up * _projectileSpeed;
-    //        canFire = Time.time + fireRate;
+    //       // rigidB.velocity = Vector3.up * _projectileSpeed;
+    //       // canFire = Time.time + fireRate;
 
     //        Projectile proj = projGO.GetComponent<Projectile>();
     //        proj.type = WeaponType.simple;
