@@ -12,6 +12,7 @@ TagManager:
   - TripleShot_Powerup
   - PowerupBox
   - Enemy
+  - Collar
   layers:
   - Default
   - TransparentFX

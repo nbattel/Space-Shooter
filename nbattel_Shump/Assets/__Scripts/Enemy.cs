@@ -7,11 +7,11 @@ public class Enemy : MonoBehaviour
     public float _speed = 20.0f;
     public bool boolEnemy1 = true;
     public bool boolEnemy2 = true;
-    private float _fireRate = 0.3f;
-    private float _health = 10;
+    public float _fireRate = 0.3f;
+    public float health = 1;
     private int _score = 100;
 
-    private BoundsCheck _bndCheck;   //Private variable alllows this Enemy script to store a reference to the BoundsCheck script component attached to the same GameOObject
+    protected BoundsCheck _bndCheck;   //Private variable allows this Enemy script to store a reference to the BoundsCheck script component attached to the same GameOObject
 
  
     private void Awake()
@@ -36,12 +36,35 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    public virtual void OnTriggerEnter2D(Collider2D coll)
     {
-        if (other.tag == "Projectile_Hero")
+        GameObject otherGO = coll.gameObject;
+        switch(otherGO.tag)
         {
-            Destroy(other.gameObject);
-            Destroy(this.gameObject);
+            case "Projectile_Hero":
+                Projectile p = otherGO.GetComponent<Projectile>();
+                //If this enemy is off the screen dont damage it
+                if (!_bndCheck.isOnScreen)
+                {
+                    Destroy(otherGO);
+                    break;
+                }
+
+                //Hurt the enemy 
+                //Get the damage amount from the WEAP_DICT
+                health -= Main.GetWeaponDefinition(p.type).damageOnHit;
+                if(health <= 0)
+                {
+                    //Destroy the enemy
+                    Destroy(this.gameObject);
+                }
+                Destroy(otherGO);
+                break;
+
+            default:
+                print("Enemy hit by non-ProjectileHero :" + otherGO.name);
+                break;
+
         }
     }
 

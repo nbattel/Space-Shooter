@@ -9,10 +9,14 @@ public class Main : MonoBehaviour
     [Header("Set in Inspector")]
     [SerializeField]
     private GameObject[] _enemyPrefabs;       //Array of enemy prefabs
+
     [SerializeField]
     private GameObject _heroPrefab;
     public float enemySpawnPerSecond = 1f;  //Spawn rate of Enemies/Second
     public float enemyDefaultPadding = 1.5f;  //Padding for position
+
+    public WeaponDefinition[] weaponDefinitions;
+    static Dictionary<WeaponType, WeaponDefinition> WEAP_DICT;
 
     private BoundsCheck _bndCheck;
 
@@ -22,6 +26,12 @@ public class Main : MonoBehaviour
         S = this;
         Instantiate(_heroPrefab, Vector3.zero, Quaternion.identity);   //creating the Hero and setting it to a starting posiiton of p:[0,0,0]
         Invoke("SpawnEnemy", 3f / enemySpawnPerSecond);    //Invoke SpawnEnemy() once (one enemy appears every 3 seconds)
+
+        WEAP_DICT = new Dictionary<WeaponType, WeaponDefinition>();
+        foreach(WeaponDefinition def in weaponDefinitions)
+        {
+            WEAP_DICT[def.type] = def;
+        }
     }
 
     public void SpawnEnemy()
@@ -71,4 +81,15 @@ public class Main : MonoBehaviour
     {
         SceneManager.LoadScene("Game");
     }
+
+    static public WeaponDefinition GetWeaponDefinition(WeaponType wt)
+    {
+        if (WEAP_DICT.ContainsKey(wt))
+        {
+            return (WEAP_DICT[wt]);
+        }
+
+        return (new WeaponDefinition());
+    }
+
 }

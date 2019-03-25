@@ -4,13 +4,23 @@ using UnityEngine;
 
 public class Hero : MonoBehaviour
 {
+
+    static public Hero S;
     [SerializeField]
     private float _speed = 30.0f;
     private float _projectileSpeed = 60f;
     public int lives = 4;
-    public float gameRestartDelay = 10f;
+    public float gameRestartDelay = 2f;
     public float fireRate = 0.10f;
     public float canFire = 0.0f;
+
+    private GameObject lastTriggerGo = null;
+    //Declare a new delegate type WeaponFireDelegate
+    public delegate void WeaponFireDelegate();
+    //Create a WeaponFireDelegate field named fireDelegate
+    public WeaponFireDelegate fireDelegate;
+    public Weapon[] weapons;
+
 
     public bool shieldsActiveBlue = true;
     public bool shieldsActiveYellow = false;
@@ -24,11 +34,29 @@ public class Hero : MonoBehaviour
     [SerializeField]
     private GameObject _shieldRed;
 
+
+    public void Awake()
+    {
+        if(S == null)
+        {
+            S = this;
+        }
+        else
+        {
+            Debug.Log("Hero.Awake() - Attempted to assign second Hero.S");
+        }
+        // fireDelegate += Shoot;
+    }
+
     // Update is called once per frame
-    private void Update()
+    public void Update()
     {
         Movement();
-        Shoot();
+
+        if(Input.GetAxis("Jump") == 1 && fireDelegate != null)
+        {
+            fireDelegate();
+        }
     }
 
     private void Movement()
@@ -40,29 +68,43 @@ public class Hero : MonoBehaviour
         transform.Translate(Vector3.up * _speed * verticalAxis * Time.deltaTime);         //Allowing the player to move vertical across the screen
     }
 
-    private void Shoot()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButton(0))
-        {
-            if(Time.time > canFire)
-            {
-                GameObject projGO = Instantiate<GameObject>(laserPrefab);
-                projGO.transform.position = transform.position + new Vector3(0, 5f, 0);
-                //Instantiate(laserPrefab, transform.position + new Vector3(0, 5.0f, 0), Quaternion.identity);
-                Rigidbody2D rigidB = projGO.GetComponent<Rigidbody2D>();
-                rigidB.velocity = Vector3.up * _projectileSpeed;
-                canFire = Time.time + fireRate;
-            }
-            
-        }
-    }
+    //private void Shoot()
+    //{
+    //    if (Time.time > canFire)
+    //    {
+    //        GameObject projGO = Instantiate<GameObject>(laserPrefab);
+    //        projGO.transform.position = transform.position + new Vector3(0, 5f, 0);
+    //        Rigidbody2D rigidB = projGO.GetComponent<Rigidbody2D>();
+    //        rigidB.velocity = Vector3.up * _projectileSpeed;
+    //        canFire = Time.time + fireRate;
+
+    //        Projectile proj = projGO.GetComponent<Projectile>();
+    //        proj.type = WeaponType.simple;
+    //        float tSpeed = Main.GetWeaponDefinition(proj.type).velocity;
+    //        rigidB.velocity = Vector3.up * tSpeed;
+    //    }
+    //}
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Enemy")
+        Transform rootT = other.gameObject.transform.root;
+        GameObject go = rootT.gameObject;
+
+        if(go == lastTriggerGo)
         {
-            Destroy(other.gameObject);
+            return;
+        }
+
+        lastTriggerGo = go;
+
+        if(go.tag == "Enemy")
+        {
+            Destroy(go);
             Damage();
+        }
+        else
+        {
+            print("Triggered by non-enemy: " + go.name);
         }
     }
 
