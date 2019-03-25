@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour
     public bool boolEnemy1 = true;
     public bool boolEnemy2 = true;
     public float _fireRate = 0.3f;
-    public float health = 1;
+    private float health = 1;
     private int _score = 100;
 
     protected BoundsCheck _bndCheck;   //Private variable allows this Enemy script to store a reference to the BoundsCheck script component attached to the same GameOObject

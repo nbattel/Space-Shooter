@@ -326,10 +326,10 @@ MonoBehaviour:
     delayBetweenShots: 0.25
     velocity: 40
   - type: 2
-    color: {r: 0.24444532, g: 0, b: 1, a: 0}
+    color: {r: 0.24444532, g: 0, b: 1, a: 1}
     projectilePrefab: {fileID: 8512575740180021928, guid: d8ef44fb86ca5614aa8e8e491785af43,
       type: 3}
-    projectileColor: {r: 1, g: 0.94218117, b: 0, a: 0}
+    projectileColor: {r: 1, g: 0.6372304, b: 0, a: 1}
     damageOnHit: 2
     delayBetweenShots: 0.25
     velocity: 30

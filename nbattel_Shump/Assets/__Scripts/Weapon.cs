@@ -56,6 +56,21 @@ public class Weapon : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            if(type == WeaponType.simple)
+            {
+                type = WeaponType.blaster;
+            }
+            else if(type == WeaponType.blaster)
+            {
+                type = WeaponType.simple;
+            }
+        }
+    }
+
     public WeaponType type
     {
         get

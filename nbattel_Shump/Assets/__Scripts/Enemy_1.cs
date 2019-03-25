@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy_1 : Enemy
 {
-
+    private float health = 3;
     public override void Move()
     {
         if (gameObject.transform.position.x > 24f || gameObject.transform.position.x < -24f)
@@ -27,7 +27,6 @@ public class Enemy_1 : Enemy
 
     public override void OnTriggerEnter2D(Collider2D coll)
     {
-        health = 3;
         GameObject otherGO = coll.gameObject;
         switch (otherGO.tag)
         {
