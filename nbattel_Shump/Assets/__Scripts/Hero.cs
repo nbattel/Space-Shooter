@@ -39,6 +39,8 @@ public class Hero : MonoBehaviour
     public GameObject shieldBlue;
     public GameObject shieldYellow;
     public GameObject shieldRed;
+    public GameObject leftEngineFailure;
+    public GameObject rightEngineFailure;
 
 
     public void Awake()
@@ -88,24 +90,6 @@ public class Hero : MonoBehaviour
         }
     }
 
-    public Transform GetClosestEnemy(Transform[] enemies)
-    {
-        Transform bestTarget = null;
-        float closestDistanceSqr = Mathf.Infinity;
-        Vector3 currentPosition = transform.position;
-        foreach (Transform potentialTarget in enemies)
-        {
-            Vector3 directionToTarget = potentialTarget.position - currentPosition;
-            float dSqrToTarget = directionToTarget.sqrMagnitude;
-            if (dSqrToTarget < closestDistanceSqr)
-            {
-                closestDistanceSqr = dSqrToTarget;
-                bestTarget = potentialTarget;
-            }
-        }
-        return bestTarget;
-    }
-
     //Finding the closest enemy by tag
     public GameObject FindClosestEnemy()
     {
@@ -147,6 +131,12 @@ public class Hero : MonoBehaviour
             AudioSource.PlayClipAtPoint(_audioClip, Camera.main.transform.position, 1f);
             Damage();
         }
+        else if (go.tag == "Asteroid")
+        {
+            Destroy(go);
+            AudioSource.PlayClipAtPoint(_audioClip, Camera.main.transform.position, 1f);
+            Damage();
+        }
         else
         {
             print("Triggered by non-enemy: " + go.tag);
@@ -173,6 +163,8 @@ public class Hero : MonoBehaviour
         {
             shieldsActiveRed = false;
             shieldRed.SetActive(false);
+            leftEngineFailure.SetActive(true);
+            rightEngineFailure.SetActive(true);
         }
         lives--;
         _uiManager.UpdateLives(lives);

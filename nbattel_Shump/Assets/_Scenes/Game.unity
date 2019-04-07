@@ -475,6 +475,8 @@ MonoBehaviour:
   - {fileID: 3992125213058965909, guid: 1cee755ef9641ba4b83bcb63b855de93, type: 3}
   - {fileID: 196386933221130081, guid: 3585c914cc88acd4780c0824b048c701, type: 3}
   - {fileID: 5996041182668000140, guid: 359b8cc1aac4b3140a6f1cfad0630b72, type: 3}
+  asteroid: {fileID: 8025239279210767628, guid: 64f8bb4363ec5f440aa48492497a0010,
+    type: 3}
   _score: 0
   score: {fileID: 1899998101}
   highscore: {fileID: 211629705}
@@ -488,6 +490,7 @@ MonoBehaviour:
     type: 3}
   enemySpawnPerSecond: 1
   enemyDefaultPadding: 1.5
+  asteroidSpawnPerSecond: 0.5
   weaponDefinitions:
   - type: 0
     color: {r: 0, g: 0, b: 0, a: 0}

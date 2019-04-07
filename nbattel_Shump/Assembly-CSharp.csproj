@@ -55,6 +55,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\__Scripts\Asteroid.cs" />
     <Compile Include="Assets\__Scripts\BoundsCheck.cs" />
     <Compile Include="Assets\__Scripts\Enemy.cs" />
     <Compile Include="Assets\__Scripts\Enemy_1.cs" />

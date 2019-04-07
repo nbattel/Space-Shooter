@@ -16,6 +16,7 @@ TagManager:
   - Nuke_Powerup
   - Enemy
   - Projectile_Nuke
+  - Asteroid
   layers:
   - Default
   - TransparentFX

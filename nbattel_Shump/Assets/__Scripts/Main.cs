@@ -10,6 +10,7 @@ public class Main : MonoBehaviour
     [Header("Set in Inspector")]
     public GameObject[] enemyPrefabs;       //Array of enemy prefabs
     public Transform[] enemies;
+    public GameObject asteroid;
     private UIManager _uiManager;
 
     public int _score = 0;
@@ -29,6 +30,7 @@ public class Main : MonoBehaviour
     public GameObject heroPrefab;
     public float enemySpawnPerSecond = 1f;  //Spawn rate of Enemies/Second
     public float enemyDefaultPadding = 1.5f;  //Padding for position
+    public float asteroidSpawnPerSecond = 0.5f;  //Spawn rate of Enemies/Second
 
     public WeaponDefinition[] weaponDefinitions;
     static Dictionary<WeaponType, WeaponDefinition> WEAP_DICT;
@@ -60,6 +62,7 @@ public class Main : MonoBehaviour
         _bndCheck = GetComponent<BoundsCheck>();           //Set _bndCheck to reference the BoundsCheck component on the GameObject
         S = this;
         Invoke("SpawnEnemy", 3f / enemySpawnPerSecond);    //Invoke SpawnEnemy() once (one enemy appears every 3 seconds)
+        Invoke("SpawnAsteroid", 3f / asteroidSpawnPerSecond);
 
         WEAP_DICT = new Dictionary<WeaponType, WeaponDefinition>();
         foreach(WeaponDefinition def in weaponDefinitions)
@@ -170,6 +173,34 @@ public class Main : MonoBehaviour
             //Invoke SpawnEnemy() again
             Invoke("SpawnEnemy", 1f / enemySpawnPerSecond);
         }        
+    }
+
+    public void SpawnAsteroid()
+    {
+        //instantiate
+        GameObject go = Instantiate<GameObject>(asteroid);
+
+        //Positioning the enemy above the screen with a random x position
+        float enemyPadding = enemyDefaultPadding;
+        if (go.GetComponent<BoundsCheck>() != null)
+        {
+            enemyPadding = Mathf.Abs(go.GetComponent<BoundsCheck>().radius);
+        }
+        
+        //Set the initial position for the spawn enemy
+        Vector3 pos = Vector3.zero;
+        float xMin = -_bndCheck.camWidth + enemyPadding;
+        float xMax = _bndCheck.camWidth - enemyPadding;
+        pos.x = Random.Range(xMin, xMax);
+        pos.y = _bndCheck.camHeight + enemyPadding;
+        go.transform.position = pos;
+
+        if (enemiesDestroyed < 15)
+        {
+            //Invoke SpawnEnemy() again
+            Invoke("SpawnAsteroid", 3f / asteroidSpawnPerSecond);
+        }
+
     }
 
     public void DelayedRestart(float delay)
