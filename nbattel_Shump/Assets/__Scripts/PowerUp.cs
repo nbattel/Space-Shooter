@@ -120,7 +120,6 @@ public class PowerUp : MonoBehaviour
                 Main.S.updateNukeText();
                 Destroy(this.gameObject);
             }
-
         }
         else
         {

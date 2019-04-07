@@ -15,6 +15,7 @@ TagManager:
   - Enemy_2
   - Nuke_Powerup
   - Enemy
+  - Projectile_Nuke
   layers:
   - Default
   - TransparentFX

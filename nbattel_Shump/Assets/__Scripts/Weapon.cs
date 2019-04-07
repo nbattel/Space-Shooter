@@ -38,6 +38,7 @@ public class Weapon : MonoBehaviour
     private Renderer _collarRend;
     public float movementSpeed = 35.0f;
     private AudioSource _audioSource;
+    private GameObject[] enemiesOnScreen;
 
     static public float nukes = 0;
 
@@ -207,6 +208,7 @@ public class Weapon : MonoBehaviour
                         nukes--;
                         Main.S.nukesLeft--;
                         Main.S.updateNukeText();
+                        DestroyEnemiesOnScreen();
                         break;
                     }
             }
@@ -246,6 +248,18 @@ public class Weapon : MonoBehaviour
         lastShotTime = Time.time;
         return (p);
 
+    }
+
+    public void DestroyEnemiesOnScreen()
+    {
+        enemiesOnScreen = GameObject.FindGameObjectsWithTag("Enemy");
+        print(enemiesOnScreen.Length.ToString());
+        for (int i = 0; i < enemiesOnScreen.Length; i++)
+        {
+            Destroy(enemiesOnScreen[i]);
+            Main.S.enemiesDestroyed++;
+        }
+        Main.S._score += 1000;
     }
 }
 
