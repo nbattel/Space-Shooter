@@ -59,11 +59,15 @@
     <Compile Include="Assets\__Scripts\Enemy.cs" />
     <Compile Include="Assets\__Scripts\Enemy_1.cs" />
     <Compile Include="Assets\__Scripts\Enemy_2.cs" />
+    <Compile Include="Assets\__Scripts\ExplosionEffect.cs" />
     <Compile Include="Assets\__Scripts\Hero.cs" />
     <Compile Include="Assets\__Scripts\Hero_Animation.cs" />
+    <Compile Include="Assets\__Scripts\HomingMissile.cs" />
     <Compile Include="Assets\__Scripts\Main.cs" />
     <Compile Include="Assets\__Scripts\Parallax.cs" />
+    <Compile Include="Assets\__Scripts\PowerUp.cs" />
     <Compile Include="Assets\__Scripts\Projectile.cs" />
+    <Compile Include="Assets\__Scripts\UIManager.cs" />
     <Compile Include="Assets\__Scripts\Weapon.cs" />
     <Compile Include="Assets\_PostProcessing\Runtime\Attributes\GetSetAttribute.cs" />
     <Compile Include="Assets\_PostProcessing\Runtime\Attributes\MinAttribute.cs" />

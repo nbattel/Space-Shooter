@@ -36,9 +36,26 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(_bndCheck.offUp)
+        if(_bndCheck.offUp || _bndCheck.offDown || _bndCheck.offLeft || _bndCheck.offRight)
         {
             Destroy(this.gameObject);
+        }
+    }
+
+    public void OnTriggerEnter2D(Collider2D coll)
+    {
+        GameObject otherGO = coll.gameObject;
+        switch (otherGO.tag)
+        {
+            case "Hero":
+                Hero.S.Damage();
+                Destroy(this.gameObject);
+                break;
+
+            default:
+                print("Projectile hit by something: " + otherGO.name);
+                break;
+
         }
     }
 

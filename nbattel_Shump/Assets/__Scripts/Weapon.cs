@@ -1,13 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum WeaponType
 {
-    none,                  //The default/no weapon
-    simple,                //A simple weapon
-    blaster,               //A triple shot blaster
-    //heatSeeekingMissile    //Homing Missiles
+    none,                   //The default/no weapon
+    simple,                 //A simple weapon
+    simpleEnemy,            //Enemy Wepon
+    blaster,                //A triple shot blaster
+    homingMissile,          //Homing Missiles
+    nuke                    //Destroys all the enemies on the screen
+
 }
 
 [System.Serializable]
@@ -32,15 +36,18 @@ public class Weapon : MonoBehaviour
     public GameObject collar;
     public float lastShotTime;
     private Renderer _collarRend;
+    public float movementSpeed = 35.0f;
+    private AudioSource _audioSource;
+
+    static public float nukes = 0;
 
     // Start is called before the first frame update
     void Start()
     {
+
+        _audioSource = GetComponent<AudioSource>();
         collar = transform.Find("Collar").gameObject;
         _collarRend = collar.GetComponent<Renderer>();
-
-        //Call SetTpe() for the dafault _type of WeaponType.none
-        SetType(_type);
 
         if(PROJECTILE_ANCHOR == null)
         {
@@ -48,27 +55,54 @@ public class Weapon : MonoBehaviour
             PROJECTILE_ANCHOR = go.transform;            
         }
 
+        //Call SetTpe() for the dafault _type of WeaponType.none
+        SetType(_type);
+
         //Find the fireDelegate of the root GameObject
         GameObject rootGO = transform.root.gameObject;
         if(rootGO.GetComponent<Hero>() != null)
         {
             rootGO.GetComponent<Hero>().fireDelegate += Fire;
         }
+        else if(rootGO.GetComponent<Enemy_2>() != null)
+        {
+            rootGO.GetComponent<Enemy_2>().fireDelegate += Fire;
+        }
+
+        if (transform.parent.gameObject.tag == "Enemy")
+        {
+            type = WeaponType.simpleEnemy;
+        }
     }
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Q))
+        if (transform.parent.gameObject.tag == "Hero")
         {
-            if(type == WeaponType.simple)
+            if (Input.GetKeyDown(KeyCode.Q))
             {
-                type = WeaponType.blaster;
+                if (type == WeaponType.simple)
+                {
+                    type = WeaponType.blaster;
+                    Main.S.activeWeapon.text = "Active Weapon: Blaster";
+                }
+                else if (type == WeaponType.blaster)
+                {
+                    type = WeaponType.homingMissile;
+                    Main.S.activeWeapon.text = "Active Weapon: Heat Seeking Missiles";
+                }
+                else if (type == WeaponType.homingMissile)
+                {
+                    type = WeaponType.nuke;
+                    Main.S.activeWeapon.text = "Active Weapon: Nuke";
+                }
+                else if (type == WeaponType.nuke)
+                {
+                    type = WeaponType.simple;
+                    Main.S.activeWeapon.text = "Active Weapon: Simple";
+                }
             }
-            else if(type == WeaponType.blaster)
-            {
-                type = WeaponType.simple;
-            }
-        }
+        }        
     }
 
     public WeaponType type
@@ -109,30 +143,85 @@ public class Weapon : MonoBehaviour
 
         Projectile p;
         Vector3 vel = Vector3.up * def.velocity;
-        if(transform.up.y < 0)
+        Vector3 velEnemy = Vector3.down * def.velocity;
+
+        if (transform.up.y < 0)
         {
             vel.y = -vel.y;
         }
 
-        switch(type)
+        if (transform.parent.gameObject.tag == "Hero")
         {
-            case WeaponType.simple:
-                p = MakeProjectile();
-                p.rigid.velocity = vel;
-                break;
+            switch (type)
+            {
+                case WeaponType.simple:
+                    _audioSource.Play();
+                    p = MakeProjectile();
+                    p.rigid.velocity = vel;
+                    break;
 
-            case WeaponType.blaster:
-                p = MakeProjectile();                 //Make middle projectile
-                p.rigid.velocity = vel;
-                //Make right projectile
-                p = MakeProjectile();
-                p.transform.rotation = Quaternion.AngleAxis(30, Vector3.back);
-                p.rigid.velocity = p.transform.rotation * vel;
-                //Make left projectile
-                p = MakeProjectile();
-                p.transform.rotation = Quaternion.AngleAxis(-30, Vector3.back);
-                p.rigid.velocity = p.transform.rotation * vel;
-                break;
+                case WeaponType.simpleEnemy:
+                    _audioSource.Play();
+                    p = MakeProjectile();
+                    p.rigid.velocity = vel;
+                    break;
+
+                case WeaponType.blaster:
+                    _audioSource.Play();
+                    p = MakeProjectile();                 //Make middle projectile
+                    p.rigid.velocity = vel;
+                    //Make right projectile
+                    p = MakeProjectile();
+                    p.transform.rotation = Quaternion.AngleAxis(30, Vector3.back);
+                    p.rigid.velocity = p.transform.rotation * vel;
+                    //Make left projectile
+                    p = MakeProjectile();
+                    p.transform.rotation = Quaternion.AngleAxis(-30, Vector3.back);
+                    p.rigid.velocity = p.transform.rotation * vel;
+                    break;
+
+                case WeaponType.homingMissile:
+                    _audioSource.Play();
+                    p = MakeProjectile();
+                    p.rigid.velocity = vel;
+                    break;
+
+                case WeaponType.nuke:
+                    if (nukes == 0)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        _audioSource.Play();
+                        int i = 0;
+                        p = MakeProjectile();                 //Make middle projectile
+                        p.rigid.velocity = vel;
+                        while (i < 360)
+                        {
+                            p = MakeProjectile();
+                            p.transform.rotation = Quaternion.AngleAxis(1 + i, Vector3.back);
+                            p.rigid.velocity = p.transform.rotation * vel;
+                            i++;
+                        }
+                        nukes--;
+                        Main.S.nukesLeft--;
+                        Main.S.updateNukeText();
+                        break;
+                    }
+            }
+        
+                
+        }
+        else if(transform.parent.gameObject.tag == "Enemy")
+        {
+            switch (type)
+            {
+                case WeaponType.simpleEnemy:                    
+                    p = MakeProjectile();
+                    p.rigid.velocity = velEnemy;
+                    break;
+            }
         }
     }
 
@@ -142,7 +231,12 @@ public class Weapon : MonoBehaviour
         if (transform.parent.gameObject.tag == "Hero")
         {
             go.tag = "Projectile_Hero";
-            go.layer = LayerMask.NameToLayer("Projectile_Hero");
+            go.layer = LayerMask.NameToLayer("Projectile_Hero");           
+        }
+        else if(transform.parent.gameObject.tag == "Enemy")
+        {
+            go.tag = "Projectile_Enemy";
+            go.layer = LayerMask.NameToLayer("Projectile_Enemy");           
         }
 
         go.transform.position = collar.transform.position;
@@ -151,6 +245,7 @@ public class Weapon : MonoBehaviour
         p.type = type;
         lastShotTime = Time.time;
         return (p);
+
     }
 }
 

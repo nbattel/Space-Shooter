@@ -9,10 +9,12 @@ TagManager:
   - Projectile_Enemy
   - Speed_Powerup
   - Shield_Powerup
-  - TripleShot_Powerup
-  - PowerupBox
-  - Enemy
   - Collar
+  - Enemy_0
+  - Enemy_1
+  - Enemy_2
+  - Nuke_Powerup
+  - Enemy
   layers:
   - Default
   - TransparentFX

@@ -6,8 +6,7 @@ public class Hero : MonoBehaviour
 {
 
     static public Hero S;
-    [SerializeField]
-    private float _speed = 30.0f;
+    public float speed = 30.0f;
     private float _projectileSpeed = 60f;
     public int lives = 4;
     public float gameRestartDelay = 2f;
@@ -21,23 +20,30 @@ public class Hero : MonoBehaviour
     public WeaponFireDelegate fireDelegate;
     public Weapon[] weapons;
 
+    private UIManager _uiManager;
 
     public bool shieldsActiveBlue = true;
     public bool shieldsActiveYellow = false;
     public bool shieldsActiveRed = false;
+    public bool isSpeedBoostActive = false;
     public GameObject laserPrefab;
+    [SerializeField]
+    private GameObject _enemy0ExplosionPrefab;
+    [SerializeField]
+    private GameObject _enemy1ExplosionPrefab;
+    [SerializeField]
+    private GameObject _HeroExplosionPrefab;
+    [SerializeField]
+    private AudioClip _audioClip;
 
-    [SerializeField]
-    private GameObject _shieldBlue;
-    [SerializeField]
-    private GameObject _shieldYellow;
-    [SerializeField]
-    private GameObject _shieldRed;
+    public GameObject _shieldBlue;
+    public GameObject _shieldYellow;
+    public GameObject _shieldRed;
 
 
     public void Awake()
     {
-        if(S == null)
+        if (S == null)
         {
             S = this;
         }
@@ -45,7 +51,12 @@ public class Hero : MonoBehaviour
         {
             Debug.Log("Hero.Awake() - Attempted to assign second Hero.S");
         }
-        // fireDelegate += Shoot;
+
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        if(_uiManager != null)
+        {
+            _uiManager.UpdateLives(lives);
+        }
     }
 
     // Update is called once per frame
@@ -64,47 +75,95 @@ public class Hero : MonoBehaviour
         float horizontalAxis = Input.GetAxis("Horizontal");    //Getting the horizontal keys (left and right arrow keys and the 'A' and 'D' keys)
         float verticalAxis = Input.GetAxis("Vertical");       //Getting the Vertical Keys  (up and down arrow keys and the 'W' and 'S' keys)
 
-        transform.Translate(Vector3.right * _speed * horizontalAxis * Time.deltaTime);    //Allowing the player to move horizontal across the screen
-        transform.Translate(Vector3.up * _speed * verticalAxis * Time.deltaTime);         //Allowing the player to move vertical across the screen
+        if(isSpeedBoostActive == true)
+        {
+            transform.Translate(Vector3.right * speed * 2.0f * horizontalAxis * Time.deltaTime);    //Allowing the player to move horizontal across the screen
+            transform.Translate(Vector3.up * speed * 2.0f * verticalAxis * Time.deltaTime);         //Allowing the player to move vertical across the screen
+
+        }
+        else
+        {
+            transform.Translate(Vector3.right * speed * horizontalAxis * Time.deltaTime);    //Allowing the player to move horizontal across the screen
+            transform.Translate(Vector3.up * speed * verticalAxis * Time.deltaTime);         //Allowing the player to move vertical across the screen
+        }
     }
 
-    //private void Shoot()
-    //{
-    //    if (Time.time > canFire)
-    //    {
-    //        GameObject projGO = Instantiate<GameObject>(laserPrefab);
-    //        projGO.transform.position = transform.position + new Vector3(0, 5f, 0);
-    //        Rigidbody2D rigidB = projGO.GetComponent<Rigidbody2D>();
-    //       // rigidB.velocity = Vector3.up * _projectileSpeed;
-    //       // canFire = Time.time + fireRate;
+    public Transform GetClosestEnemy(Transform[] enemies)
+    {
+        Transform bestTarget = null;
+        float closestDistanceSqr = Mathf.Infinity;
+        Vector3 currentPosition = transform.position;
+        foreach (Transform potentialTarget in enemies)
+        {
+            Vector3 directionToTarget = potentialTarget.position - currentPosition;
+            float dSqrToTarget = directionToTarget.sqrMagnitude;
+            if (dSqrToTarget < closestDistanceSqr)
+            {
+                closestDistanceSqr = dSqrToTarget;
+                bestTarget = potentialTarget;
+            }
+        }
+        return bestTarget;
+    }
 
-    //        Projectile proj = projGO.GetComponent<Projectile>();
-    //        proj.type = WeaponType.simple;
-    //        float tSpeed = Main.GetWeaponDefinition(proj.type).velocity;
-    //        rigidB.velocity = Vector3.up * tSpeed;
-    //    }
-    //}
+    //Finding the closest enemy by tag
+    public GameObject FindClosestEnemy()
+    {
+        GameObject[] gos;
+        gos = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject closest = null;
+        float distance = Mathf.Infinity;
+        Vector3 position = transform.position;
+        foreach (GameObject go in gos)
+        {
+            Vector3 diff = go.transform.position - position;
+            float curDistance = diff.sqrMagnitude;
+            if (curDistance < distance)
+            {
+                closest = go;
+                distance = curDistance;
+            }
+        }
+        return closest;
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         Transform rootT = other.gameObject.transform.root;
         GameObject go = rootT.gameObject;
+        GameObject otherGO = other.gameObject;
 
-        if(go == lastTriggerGo)
+        if (go == lastTriggerGo)
         {
             return;
         }
 
         lastTriggerGo = go;
 
-        if(go.tag == "Enemy")
+        if (go.tag == "Enemy")
         {
             Destroy(go);
+            Instantiate(_enemy0ExplosionPrefab, go.transform.position, Quaternion.identity);
+            AudioSource.PlayClipAtPoint(_audioClip, Camera.main.transform.position, 1f);
             Damage();
         }
+        //else if (go.tag == "Enemy_1")
+        //{
+        //    Destroy(go);
+        //    Instantiate(_enemy1ExplosionPrefab, go.transform.position, Quaternion.identity);
+        //    AudioSource.PlayClipAtPoint(_audioClip, Camera.main.transform.position, 1f);
+        //    Damage();
+        //}
+        //else if (go.tag == "Enemy_2")
+        //{
+        //    Destroy(go);
+        //    Instantiate(_enemy1ExplosionPrefab, go.transform.position, Quaternion.identity);
+        //    AudioSource.PlayClipAtPoint(_audioClip, Camera.main.transform.position, 1f);
+        //    Damage();
+        //}
         else
         {
-            print("Triggered by non-enemy: " + go.name);
+            print("Triggered by non-enemy: " + go.tag);
         }
     }
 
@@ -130,12 +189,27 @@ public class Hero : MonoBehaviour
             _shieldRed.SetActive(false);
         }
         lives--;
+        _uiManager.UpdateLives(lives);
 
         if(lives < 1)
         {
             Destroy(this.gameObject);
+            Instantiate(_HeroExplosionPrefab, transform.position, Quaternion.identity);
+            AudioSource.PlayClipAtPoint(_audioClip, Camera.main.transform.position, 1f);
             lives = 4;
             Main.S.DelayedRestart(gameRestartDelay);
         }
+    }
+
+    public void SpeedBoostPowerUpOn()
+    {
+        isSpeedBoostActive = true;
+        StartCoroutine(SpeedBoostPowerDownRoutine());
+    }
+
+    public IEnumerator SpeedBoostPowerDownRoutine()
+    {
+        yield return new WaitForSeconds(10.0f);
+        isSpeedBoostActive = false;
     }
 }

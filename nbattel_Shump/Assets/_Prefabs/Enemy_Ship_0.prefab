@@ -298,6 +298,13 @@ MonoBehaviour:
   _speed: 20
   boolEnemy1: 1
   boolEnemy2: 1
+  _fireRate: 0.3
+  powerUpDropChance: 4
+  notifiedOfDestruction: 0
+  _enemy0ExplosionPrefab: {fileID: 5028908550143565606, guid: 937fbe3000cff134dac021ffbdf01131,
+    type: 3}
+  _enemy1ExplosionPrefab: {fileID: 0}
+  _audioClip: {fileID: 8300000, guid: 09df4b1afe2ac0147b33632a018b601c, type: 3}
 --- !u!114 &4182920341104554838
 MonoBehaviour:
   m_ObjectHideFlags: 0

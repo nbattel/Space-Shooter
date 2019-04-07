@@ -112,6 +112,7 @@ GameObject:
   - component: {fileID: 1705358418}
   - component: {fileID: 1814001349708300866}
   - component: {fileID: 8736880294880213712}
+  - component: {fileID: 5991268146570012092}
   m_Layer: 9
   m_Name: Enemy_Ship_2
   m_TagString: Enemy
@@ -127,10 +128,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5996041182668000142}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.24, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 1690950604}
+  - {fileID: 6692124879248311269}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -218,6 +220,14 @@ MonoBehaviour:
   _speed: 20
   boolEnemy1: 1
   boolEnemy2: 1
+  _fireRate: 0.3
+  powerUpDropChance: 4
+  notifiedOfDestruction: 0
+  _enemy0ExplosionPrefab: {fileID: 0}
+  _enemy1ExplosionPrefab: {fileID: 8052605074323455027, guid: 7f915103a22caa94b94efeac8223a20e,
+    type: 3}
+  _audioClip: {fileID: 8300000, guid: 09df4b1afe2ac0147b33632a018b601c, type: 3}
+  weapons: []
 --- !u!60 &8736880294880213712
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -304,3 +314,99 @@ PolygonCollider2D:
     - - {x: 0.57, y: -0.34}
       - {x: 0.58, y: -0.35999998}
       - {x: 0.58, y: -0.35}
+--- !u!50 &5991268146570012092
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5996041182668000142}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!1001 &8365696011671096731
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 5996041182668000140}
+    m_Modifications:
+    - target: {fileID: 1581506355128913691, guid: a2496cc45ae245d4a8daeb5229c4eca3,
+        type: 3}
+      propertyPath: m_Name
+      value: Weapon
+      objectReference: {fileID: 0}
+    - target: {fileID: 2938554965618626174, guid: a2496cc45ae245d4a8daeb5229c4eca3,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2938554965618626174, guid: a2496cc45ae245d4a8daeb5229c4eca3,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2938554965618626174, guid: a2496cc45ae245d4a8daeb5229c4eca3,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2938554965618626174, guid: a2496cc45ae245d4a8daeb5229c4eca3,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2938554965618626174, guid: a2496cc45ae245d4a8daeb5229c4eca3,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2938554965618626174, guid: a2496cc45ae245d4a8daeb5229c4eca3,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2938554965618626174, guid: a2496cc45ae245d4a8daeb5229c4eca3,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2938554965618626174, guid: a2496cc45ae245d4a8daeb5229c4eca3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2938554965618626174, guid: a2496cc45ae245d4a8daeb5229c4eca3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2938554965618626174, guid: a2496cc45ae245d4a8daeb5229c4eca3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2938554965618626174, guid: a2496cc45ae245d4a8daeb5229c4eca3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a2496cc45ae245d4a8daeb5229c4eca3, type: 3}
+--- !u!4 &6692124879248311269 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2938554965618626174, guid: a2496cc45ae245d4a8daeb5229c4eca3,
+    type: 3}
+  m_PrefabInstance: {fileID: 8365696011671096731}
+  m_PrefabAsset: {fileID: 0}

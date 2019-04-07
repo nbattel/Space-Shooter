@@ -5,6 +5,30 @@ using UnityEngine;
 public class Enemy_2 : Enemy
 {
     private float health = 10;
+    //Declare a new delegate type WeaponFireDelegate
+    public delegate void WeaponFireDelegate();
+    //Create a WeaponFireDelegate field named fireDelegate
+    public WeaponFireDelegate fireDelegate;
+    public Weapon[] weapons;
+
+    public override void Update()
+    {
+        Move();
+
+        if (_bndCheck != null && _bndCheck.offDown)         //Checks to see whether the GameObject has gone off the screen because it has a pos.y that is too negative
+        {
+            Destroy(gameObject);
+        }
+        else if (_bndCheck != null && _bndCheck.offRight)         //Checks to see whether the GameObject has gone off the screen because it has a pos.x that is too positive
+        {
+            Destroy(gameObject);
+        }        
+
+        if (Main.S.enemiesDestroyed >= 30)
+        {
+           fireDelegate();
+        }
+    }
 
     public override void Move()
     {
@@ -46,8 +70,16 @@ public class Enemy_2 : Enemy
                 if (health <= 0)
                 {
                     //Destroy the enemy
+                    if (!notifiedOfDestruction)
+                    {
+                        Main.S.ShipDestroyed(this);
+                    }
+                    notifiedOfDestruction = true;
                     Main.S._score += 300;
                     Destroy(this.gameObject);
+                    Instantiate(_enemy1ExplosionPrefab, transform.position, Quaternion.identity);
+                    AudioSource.PlayClipAtPoint(_audioClip, Camera.main.transform.position, 1f);
+                    Main.S.enemiesDestroyed++;
                 }
                 Destroy(otherGO);
                 break;

@@ -46,8 +46,16 @@ public class Enemy_1 : Enemy
                 if (health <= 0)
                 {
                     //Destroy the enemy
+                    if (!notifiedOfDestruction)
+                    {
+                        Main.S.ShipDestroyed(this);
+                    }
+                    notifiedOfDestruction = true;
                     Main.S._score += 150;
                     Destroy(this.gameObject);
+                    Instantiate(_enemy1ExplosionPrefab, transform.position, Quaternion.identity);
+                    AudioSource.PlayClipAtPoint(_audioClip, Camera.main.transform.position, 1f);
+                    Main.S.enemiesDestroyed++;                    
                 }
                 Destroy(otherGO);
                 break;
