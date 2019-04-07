@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy_2 : Enemy
 {
-    private float health = 10;
+    private float _health = 10;
     //Declare a new delegate type WeaponFireDelegate
     public delegate void WeaponFireDelegate();
     //Create a WeaponFireDelegate field named fireDelegate
@@ -40,13 +40,13 @@ public class Enemy_2 : Enemy
         Vector3 tempPos = pos;
         if (boolEnemy2)
         {
-            tempPos.y -= (_speed / 2) * Time.deltaTime;
+            tempPos.y -= (speed / 2) * Time.deltaTime;
         }
         else
         {
-            tempPos.y += (_speed / 2) * Time.deltaTime;
+            tempPos.y += (speed / 2) * Time.deltaTime;
         }
-        tempPos.x += (_speed / 2) * Time.deltaTime;
+        tempPos.x += (speed / 2) * Time.deltaTime;
         pos = tempPos;
     }
 
@@ -66,8 +66,8 @@ public class Enemy_2 : Enemy
 
                 //Hurt the enemy 
                 //Get the damage amount from the WEAP_DICT
-                health -= Main.GetWeaponDefinition(p.type).damageOnHit;
-                if (health <= 0)
+                _health -= Main.GetWeaponDefinition(p.type).damageOnHit;
+                if (_health <= 0)
                 {
                     //Destroy the enemy
                     if (!notifiedOfDestruction)

@@ -467,11 +467,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 402114de56a38d94abb18401ddc9af2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyPrefabs:
+  enemyPrefabs:
   - {fileID: 3992125213058965906, guid: 1cee755ef9641ba4b83bcb63b855de93, type: 3}
   - {fileID: 196386933221130084, guid: 3585c914cc88acd4780c0824b048c701, type: 3}
   - {fileID: 5996041182668000142, guid: 359b8cc1aac4b3140a6f1cfad0630b72, type: 3}
-  _enemies:
+  enemies:
   - {fileID: 3992125213058965909, guid: 1cee755ef9641ba4b83bcb63b855de93, type: 3}
   - {fileID: 196386933221130081, guid: 3585c914cc88acd4780c0824b048c701, type: 3}
   - {fileID: 5996041182668000140, guid: 359b8cc1aac4b3140a6f1cfad0630b72, type: 3}

@@ -38,7 +38,7 @@ public class Weapon : MonoBehaviour
     private Renderer _collarRend;
     public float movementSpeed = 35.0f;
     private AudioSource _audioSource;
-    private GameObject[] enemiesOnScreen;
+    private GameObject[] _enemiesOnScreen;
 
     static public float nukes = 0;
 
@@ -252,11 +252,11 @@ public class Weapon : MonoBehaviour
 
     public void DestroyEnemiesOnScreen()
     {
-        enemiesOnScreen = GameObject.FindGameObjectsWithTag("Enemy");
-        print(enemiesOnScreen.Length.ToString());
-        for (int i = 0; i < enemiesOnScreen.Length; i++)
+        _enemiesOnScreen = GameObject.FindGameObjectsWithTag("Enemy");
+        print(_enemiesOnScreen.Length.ToString());
+        for (int i = 0; i < _enemiesOnScreen.Length; i++)
         {
-            Destroy(enemiesOnScreen[i]);
+            Destroy(_enemiesOnScreen[i]);
             Main.S.enemiesDestroyed++;
         }
         Main.S._score += 1000;

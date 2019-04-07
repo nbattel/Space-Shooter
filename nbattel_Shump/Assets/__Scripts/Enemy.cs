@@ -6,11 +6,11 @@ using UnityEngine.UI;
 public class Enemy : MonoBehaviour
 {
     static public Enemy E;
-    public float _speed = 20.0f;
+    public float speed = 20.0f;
     public bool boolEnemy1 = true;
     public bool boolEnemy2 = true;
-    public float _fireRate = 0.3f;
-    private float health = 1;    
+    public float fireRate = 0.3f;
+    public float health = 1;    
 
     public float powerUpDropChance = 4.0f;
     public bool notifiedOfDestruction = false;
@@ -81,7 +81,7 @@ public class Enemy : MonoBehaviour
                     notifiedOfDestruction = true;
                     Main.S._score += 100;
                     Destroy(this.gameObject);
-                    Instantiate(_enemy0ExplosionPrefab, transform.position, Quaternion.identity);
+                    Instantiate(_enemy1ExplosionPrefab, transform.position, Quaternion.identity);
                     AudioSource.PlayClipAtPoint(_audioClip, Camera.main.transform.position, 1f);
                     Main.S.enemiesDestroyed++;                    
                 }
@@ -111,7 +111,7 @@ public class Enemy : MonoBehaviour
     public virtual void Move()  //Moving the Enemy down the screen
     {
         Vector3 tempPos = pos;
-        tempPos.y -= _speed * Time.deltaTime;
+        tempPos.y -= speed * Time.deltaTime;
         pos = tempPos;
     }
 }

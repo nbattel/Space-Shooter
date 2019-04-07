@@ -8,8 +8,8 @@ public class Main : MonoBehaviour
 {
     static public Main S;   //A singleton for main
     [Header("Set in Inspector")]
-    public GameObject[] _enemyPrefabs;       //Array of enemy prefabs
-    public Transform[] _enemies;
+    public GameObject[] enemyPrefabs;       //Array of enemy prefabs
+    public Transform[] enemies;
     private UIManager _uiManager;
 
     public int _score = 0;
@@ -22,8 +22,8 @@ public class Main : MonoBehaviour
     public float nukesLeft = 0;
 
     public int enemiesDestroyed = 0;
-    private bool levelOneActivated = false;
-    private bool levelTwoActivated = false;
+    private bool _levelOneActivated = false;
+    private bool _levelTwoActivated = false;
     public bool gameOver = true;
 
     public GameObject heroPrefab;
@@ -90,32 +90,32 @@ public class Main : MonoBehaviour
 
         if(enemiesDestroyed >= 15)
         {
-            if(levelOneActivated == false)
+            if(_levelOneActivated == false)
             {
                 _uiManager.ShowLevelOne();
                 Time.timeScale = 0.0f;
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
-                    Enemy.E._speed = 30.0f;
+                    Enemy.E.speed = 30.0f;
                     _uiManager.HideLevelOne();
                     Time.timeScale = 1.0f;
-                    levelOneActivated = true;
+                    _levelOneActivated = true;
                 }                
             }            
         }
 
         if (enemiesDestroyed >= 30)
         {
-            if(levelTwoActivated == false)
+            if(_levelTwoActivated == false)
             {
                 _uiManager.ShowLevelTwo();
                 Time.timeScale = 0.0f;
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
-                    Enemy.E._speed = 40.0f;
+                    Enemy.E.speed = 40.0f;
                     _uiManager.HideLevelTwo();
                     Time.timeScale = 1.0f;
-                    levelTwoActivated = true;
+                    _levelTwoActivated = true;
                 }
             }                        
         }
@@ -124,8 +124,8 @@ public class Main : MonoBehaviour
     public void SpawnEnemy()
     {
         //Picking a random enemy prefab to instantiate
-        int rand = Random.Range(0, _enemyPrefabs.Length);
-        GameObject go = Instantiate<GameObject>(_enemyPrefabs[rand]);
+        int rand = Random.Range(0, enemyPrefabs.Length);
+        GameObject go = Instantiate<GameObject>(enemyPrefabs[rand]);
 
         //Positioning the enemy above the screen with a random x position
         float enemyPadding = enemyDefaultPadding;

@@ -13,7 +13,7 @@ public class Hero : MonoBehaviour
     public float fireRate = 0.10f;
     public float canFire = 0.0f;
 
-    private GameObject lastTriggerGo = null;
+    private GameObject _lastTriggerGo = null;
     //Declare a new delegate type WeaponFireDelegate
     public delegate void WeaponFireDelegate();
     //Create a WeaponFireDelegate field named fireDelegate
@@ -36,9 +36,9 @@ public class Hero : MonoBehaviour
     [SerializeField]
     private AudioClip _audioClip;
 
-    public GameObject _shieldBlue;
-    public GameObject _shieldYellow;
-    public GameObject _shieldRed;
+    public GameObject shieldBlue;
+    public GameObject shieldYellow;
+    public GameObject shieldRed;
 
 
     public void Awake()
@@ -133,34 +133,20 @@ public class Hero : MonoBehaviour
         GameObject go = rootT.gameObject;
         GameObject otherGO = other.gameObject;
 
-        if (go == lastTriggerGo)
+        if (go == _lastTriggerGo)
         {
             return;
         }
 
-        lastTriggerGo = go;
+        _lastTriggerGo = go;
 
         if (go.tag == "Enemy")
         {
             Destroy(go);
-            Instantiate(_enemy0ExplosionPrefab, go.transform.position, Quaternion.identity);
+            Instantiate(_enemy1ExplosionPrefab, go.transform.position, Quaternion.identity);
             AudioSource.PlayClipAtPoint(_audioClip, Camera.main.transform.position, 1f);
             Damage();
         }
-        //else if (go.tag == "Enemy_1")
-        //{
-        //    Destroy(go);
-        //    Instantiate(_enemy1ExplosionPrefab, go.transform.position, Quaternion.identity);
-        //    AudioSource.PlayClipAtPoint(_audioClip, Camera.main.transform.position, 1f);
-        //    Damage();
-        //}
-        //else if (go.tag == "Enemy_2")
-        //{
-        //    Destroy(go);
-        //    Instantiate(_enemy1ExplosionPrefab, go.transform.position, Quaternion.identity);
-        //    AudioSource.PlayClipAtPoint(_audioClip, Camera.main.transform.position, 1f);
-        //    Damage();
-        //}
         else
         {
             print("Triggered by non-enemy: " + go.tag);
@@ -172,21 +158,21 @@ public class Hero : MonoBehaviour
         if(shieldsActiveBlue == true)
         {
             shieldsActiveBlue = false;
-            _shieldBlue.SetActive(false);
+            shieldBlue.SetActive(false);
             shieldsActiveYellow = true;
-            _shieldYellow.SetActive(true);
+            shieldYellow.SetActive(true);
         }
         else if(shieldsActiveYellow == true)
         {
             shieldsActiveYellow = false;
-            _shieldYellow.SetActive(false);
+            shieldYellow.SetActive(false);
             shieldsActiveRed = true;
-            _shieldRed.SetActive(true);
+            shieldRed.SetActive(true);
         }
         else if(shieldsActiveRed == true)
         {
             shieldsActiveRed = false;
-            _shieldRed.SetActive(false);
+            shieldRed.SetActive(false);
         }
         lives--;
         _uiManager.UpdateLives(lives);

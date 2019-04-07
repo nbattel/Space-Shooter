@@ -418,9 +418,9 @@ MonoBehaviour:
   _HeroExplosionPrefab: {fileID: 1544467055050451369, guid: 6f49425e16342b14aa833373df67431b,
     type: 3}
   _audioClip: {fileID: 8300000, guid: 09df4b1afe2ac0147b33632a018b601c, type: 3}
-  _shieldBlue: {fileID: 1076939417}
-  _shieldYellow: {fileID: 2136366007}
-  _shieldRed: {fileID: 2056296988}
+  shieldBlue: {fileID: 1076939417}
+  shieldYellow: {fileID: 2136366007}
+  shieldRed: {fileID: 2056296988}
 --- !u!114 &4250617603517528963
 MonoBehaviour:
   m_ObjectHideFlags: 0

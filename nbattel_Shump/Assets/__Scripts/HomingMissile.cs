@@ -5,8 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class HomingMissile : MonoBehaviour
 {
-    private Transform target;
-    private Rigidbody2D rb;
+    public Transform target;
+    public Rigidbody2D rb;
     public float speed = 35.0f;
     public float rotateSpeed = 200.0f;
 

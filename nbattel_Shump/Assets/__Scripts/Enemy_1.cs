@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy_1 : Enemy
 {
-    private float health = 3;
+    private float _health = 3;
 
     public override void Move()
     {
@@ -16,13 +16,13 @@ public class Enemy_1 : Enemy
         Vector3 tempPos = pos;
         if(boolEnemy1)
         {
-            tempPos.x -= _speed * Time.deltaTime;
+            tempPos.x -= speed * Time.deltaTime;
         }
         else
         {
-            tempPos.x += _speed * Time.deltaTime;
+            tempPos.x += speed * Time.deltaTime;
         }
-        tempPos.y -= _speed * Time.deltaTime;
+        tempPos.y -= speed * Time.deltaTime;
         pos = tempPos;
     }
 
@@ -42,8 +42,8 @@ public class Enemy_1 : Enemy
 
                 //Hurt the enemy 
                 //Get the damage amount from the WEAP_DICT
-                health -= Main.GetWeaponDefinition(p.type).damageOnHit;
-                if (health <= 0)
+                _health -= Main.GetWeaponDefinition(p.type).damageOnHit;
+                if (_health <= 0)
                 {
                     //Destroy the enemy
                     if (!notifiedOfDestruction)
