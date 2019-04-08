@@ -1823,9 +1823,7 @@ MonoBehaviour:
 
     2. Press ''Space'' to shoot
 
-    3. Use the arrow keys or ''aswd'' keys
-
-    to move'
+    3. Use the arrow keys or ''aswd'' keys to move'
 --- !u!222 &2125750237
 CanvasRenderer:
   m_ObjectHideFlags: 0
