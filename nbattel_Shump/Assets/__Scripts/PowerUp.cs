@@ -104,6 +104,8 @@ public class PowerUp : MonoBehaviour
                     Hero.S.shieldRed.SetActive(true);
                     Hero.S.lives++;
                     _uiManager.UpdateLives(Hero.S.lives);
+                    Hero.S.leftEngineFailure.SetActive(false);
+                    Hero.S.rightEngineFailure.SetActive(false);
                 }
 
                 Destroy(this.gameObject);
