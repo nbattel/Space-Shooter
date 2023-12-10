@@ -1,6 +1,7 @@
 # Space Shooter
 ## Instructions for running the game
 
+Inside Builds folder you can find nbattel_shump.exe to execute the game.
 
 ![alt text](Screenshots/TitleScreen.png "Title Screen display")
 
