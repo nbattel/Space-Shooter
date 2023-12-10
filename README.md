@@ -1,4 +1,6 @@
-# SE2250 - Software Construction Final Project
+# Space Shooter
+## Instructions for running the game
+
 
 ![alt text](Screenshots/TitleScreen.png "Title Screen display")
 
